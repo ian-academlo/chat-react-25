@@ -1,10 +1,23 @@
-import { Box } from "@mui/material";
-import React from "react";
+import { Alert, Box, Snackbar } from "@mui/material";
+import React, { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
+import axios from "axios";
 
 function RegisterPage() {
+  const [open, setOpen] = useState(false);
+  const [requestError, setRequestError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const submitLogin = (formData) => {
     console.log(formData);
+    axios
+      .post("http://localhost:8000/users", formData)
+      .then(() => {
+        setOpen(true);
+      })
+      .catch((err) => {
+        setRequestError(true);
+        setErrorMessage(err.response.data.error);
+      });
   };
 
   const onChange = (formData) => {
@@ -20,6 +33,15 @@ function RegisterPage() {
         alignItems: "center",
       }}
     >
+      <Snackbar
+        open={requestError || open}
+        autoHideDuration={4000}
+        onClose={() => setRequestError(false)}
+      >
+        <Alert severity={open ? "success" : "error"}>
+          {open ? "Usuario creado" : errorMessage}
+        </Alert>
+      </Snackbar>
       <RegisterForm onChange={onChange} onSubmit={submitLogin} />
     </Box>
   );

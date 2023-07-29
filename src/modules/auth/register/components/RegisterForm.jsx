@@ -13,13 +13,29 @@ import { useNavigate } from "react-router-dom";
 
 function RegisterForm({ onSubmit, onChange }) {
   const [show, setShow] = useState(false);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [usernameError, setUsernameError] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
   const navigate = useNavigate();
+
+  const handleUsername = (value) => {
+    if (username) {
+      setUsernameError(false);
+    }
+    setUsername(value);
+    const data = { ...formData };
+    data.username = value;
+    setFormData(data);
+  };
 
   const handleEmail = (value) => {
     console.log(value);
@@ -43,6 +59,9 @@ function RegisterForm({ onSubmit, onChange }) {
   };
 
   const handleSubmit = () => {
+    if (!username) {
+      setUsernameError(true);
+    }
     if (!password) {
       setPasswordError(true);
     }
@@ -85,6 +104,12 @@ function RegisterForm({ onSubmit, onChange }) {
           </Typography>
         </Stack>
         {/* <Typography>Nos alegra tenerte de vuelta</Typography> */}
+        <TextField
+          error={usernameError}
+          fullWidth
+          label="Username"
+          onChange={(e) => handleUsername(e.target.value)}
+        />
         <TextField
           error={emailError}
           helperText={emailError ? "Ingresa un correo válido" : ""}

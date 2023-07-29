@@ -47,6 +47,7 @@ function LoginForm({ onSubmit, onChange }) {
     if (!email) {
       setEmailError(true);
     }
+    onSubmit(formData);
   };
 
   useEffect(() => {
@@ -104,7 +105,7 @@ function LoginForm({ onSubmit, onChange }) {
               </InputAdornment>
             ),
           }}
-          onClick={(e) => handlePassword(e.target.value)}
+          onChange={(e) => handlePassword(e.target.value)}
         />
         <Button
           fullWidth
