@@ -5,6 +5,7 @@ import theme from "./theme/newTheme";
 import AuthLayout from "./modules/auth/AuthLayout";
 import RegisterPage from "./modules/auth/register/pages/RegisterPage";
 import Chat from "./modules/chat/pages/Chat";
+import ValidateEmail from "./modules/auth/validate-email/ValideteEmail";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
 export default App;
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ValidateEmail />,
+  },
   {
     path: "/auth",
     element: <AuthLayout />,
